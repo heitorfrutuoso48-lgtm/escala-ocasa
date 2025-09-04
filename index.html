@@ -7,98 +7,142 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
 <style>
 body {
-font-family: 'Montserrat', Arial, sans-serif;
-margin: 0;
-padding: 0;
-background: #fff;
+  font-family: 'Montserrat', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff;
 }
 .container {
-max-width: 400px;
-margin: 0 auto;
-border: 2px solid #001F54;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 2px solid #001F54;
 }
 .player {
-display: flex;
-align-items: center;
-border-bottom: 1px solid black;
-font-weight: bold;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid black;
+  font-weight: bold;
 }
 .number {
-width: 60px;
-background: #001F54;
-color: white;
-text-align: center;
-padding: 8px;
-font-family: 'Montserrat', sans-serif;
+  width: 60px;
+  background: #001F54;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-family: 'Montserrat', sans-serif;
 }
 .name {
-flex: 1;
-padding: 8px;
-text-transform: uppercase;
-background: #ffffff;
-font-family: 'Montserrat', sans-serif;
+  flex: 1;
+  padding: 8px;
+  text-transform: uppercase;
+  background: #ffffff;
+  font-family: 'Montserrat', sans-serif;
 }
 .coach {
-background: #001F54;
-color: white;
-font-weight: bold;
-text-align: left; /* Mudança aqui */
-padding: 10px;
-text-transform: uppercase;
-border-bottom: 2px solid #001F54;
-font-family: 'Montserrat', sans-serif;
+  background: #001F54;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #001F54;
+  font-family: 'Montserrat', sans-serif;
 }
 .reservas-wrapper {
-max-width: 400px;
-margin: 0 auto;
+  max-width: 400px;
+  margin: 0 auto;
 }
 .reservas {
-border: 2px solid #001F54;
-border-top: none;
-background: #001F54;
-color: yellow;
-font-weight: bold;
-padding: 10px;
-font-family: 'Montserrat', sans-serif;
+  border: 2px solid #001F54;
+  border-top: none;
+  background: #001F54;
+  color: yellow;
+  font-weight: bold;
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
 }
 .reserva {
-margin: 6px 0;
+  margin: 6px 0;
 }
 .reserva .card {
-display: inline-block;
-width: 14px;
-height: 14px;
-background: yellow;
-margin-left: 6px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: yellow;
+  margin-left: 6px;
+}
+[contenteditable="true"] {
+  outline: none;
 }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="player"><div class="number" contenteditable="true">50</div><div class="name" contenteditable="true">LUAN POLI</div></div>
-<div class="player"><div class="number" contenteditable="true">98</div><div class="name" contenteditable="true">MATEUSINHO</div></div>
-<div class="player"><div class="number" contenteditable="true">33</div><div class="name" contenteditable="true">EMPEREUR</div></div>
-<div class="player"><div class="number" contenteditable="true">4</div><div class="name" contenteditable="true">NATHAN</div></div>
-<div class="player"><div class="number" contenteditable="true">5</div><div class="name" contenteditable="true">CALEBE</div></div>
-<div class="player"><div class="number" contenteditable="true">27</div><div class="name" contenteditable="true">DENILSON</div></div>
-<div class="player"><div class="number" contenteditable="true">23</div><div class="name" contenteditable="true">M. HENRIQUE</div></div>
-<div class="player"><div class="number" contenteditable="true">10</div><div class="name" contenteditable="true">J. GENTIL</div></div>
-<div class="player"><div class="number" contenteditable="true">30</div><div class="name" contenteditable="true">L. MINEIRO</div></div>
-<div class="player"><div class="number" contenteditable="true">11</div><div class="name" contenteditable="true">C. ALBERTO</div></div>
-<div class="player"><div class="number" contenteditable="true">9</div><div class="name" contenteditable="true">PEDRO</div></div>
-<div class="coach" contenteditable="true">EDUARDO BARROS</div>
+  <div class="player"><div class="number editable" data-id="n1" contenteditable="true">50</div><div class="name editable" data-id="p1" contenteditable="true">LUAN POLI</div></div>
+  <div class="player"><div class="number editable" data-id="n2" contenteditable="true">98</div><div class="name editable" data-id="p2" contenteditable="true">MATEUSINHO</div></div>
+  <div class="player"><div class="number editable" data-id="n3" contenteditable="true">33</div><div class="name editable" data-id="p3" contenteditable="true">EMPEREUR</div></div>
+  <div class="player"><div class="number editable" data-id="n4" contenteditable="true">4</div><div class="name editable" data-id="p4" contenteditable="true">NATHAN</div></div>
+  <div class="player"><div class="number editable" data-id="n5" contenteditable="true">5</div><div class="name editable" data-id="p5" contenteditable="true">CALEBE</div></div>
+  <div class="player"><div class="number editable" data-id="n6" contenteditable="true">27</div><div class="name editable" data-id="p6" contenteditable="true">DENILSON</div></div>
+  <div class="player"><div class="number editable" data-id="n7" contenteditable="true">23</div><div class="name editable" data-id="p7" contenteditable="true">M. HENRIQUE</div></div>
+  <div class="player"><div class="number editable" data-id="n8" contenteditable="true">10</div><div class="name editable" data-id="p8" contenteditable="true">J. GENTIL</div></div>
+  <div class="player"><div class="number editable" data-id="n9" contenteditable="true">30</div><div class="name editable" data-id="p9" contenteditable="true">L. MINEIRO</div></div>
+  <div class="player"><div class="number editable" data-id="n10" contenteditable="true">11</div><div class="name editable" data-id="p10" contenteditable="true">C. ALBERTO</div></div>
+  <div class="player"><div class="number editable" data-id="n11" contenteditable="true">9</div><div class="name editable" data-id="p11" contenteditable="true">PEDRO</div></div>
+  <div class="coach editable" data-id="coach" contenteditable="true">EDUARDO BARROS</div>
 </div>
 
 <div class="reservas-wrapper">
-<div class="reservas" contenteditable="true">
-<div class="reserva" contenteditable="true">20 - D. Miguel </div>
-<div class="reserva" contenteditable="true">8 - Max Alves</div>
-<div class="reserva" contenteditable="true">70 - Juan Christan</div>
-<div class="reserva" contenteditable="true">7 - A. Martínez</div>
-<div class="reserva" contenteditable="true">7 - A. Martínez</div>
+  <div class="reservas">
+    <div class="reserva editable" data-id="r1" contenteditable="true">20 - D. Miguel </div>
+    <div class="reserva editable" data-id="r2" contenteditable="true">8 - Max Alves</div>
+    <div class="reserva editable" data-id="r3" contenteditable="true">70 - Juan Christan</div>
+    <div class="reserva editable" data-id="r4" contenteditable="true">7 - A. Martínez</div>
+    <div class="reserva editable" data-id="r5" contenteditable="true">7 - A. Martínez</div>
+  </div>
 </div>
-</div>
+
+<script>
+  // 🔹 Configuração do Firebase (substitua pelos dados do seu projeto)
+  const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_PROJETO.firebaseapp.com",
+    databaseURL: "https://SEU_PROJETO.firebaseio.com",
+    projectId: "SEU_PROJETO",
+    storageBucket: "SEU_PROJETO.appspot.com",
+    messagingSenderId: "NUMERO",
+    appId: "ID_APP"
+  };
+
+  // Inicializa Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // Função para sincronizar os campos editáveis
+  const editables = document.querySelectorAll(".editable");
+
+  editables.forEach(el => {
+    const id = el.dataset.id;
+
+    // Quando alguém editar, salva no banco
+    el.addEventListener("input", () => {
+      db.ref("escala/" + id).set(el.innerText);
+    });
+
+    // Atualiza em tempo real quando mudar no banco
+    db.ref("escala/" + id).on("value", snapshot => {
+      if (snapshot.exists() && snapshot.val() !== el.innerText) {
+        el.innerText = snapshot.val();
+      }
+    });
+  });
+</script>
 </body>
 </html>
